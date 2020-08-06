@@ -75,12 +75,14 @@ struct ContentView: View {
                 ForEach(buttons, id: \.self) { row in
                     HStack {
                         ForEach(row, id: \.self) { button in
-                            Text(button.title)
-                                .font(.system(size: 32))
-                                .frame(width: width, height: width)
-                                .foregroundColor(.white)
-                                .background(button.backgroundColor)
-                                .cornerRadius(width)
+                            Button(action: {}) {
+                                Text(button.title)
+                                    .font(.system(size: 32))
+                                    .frame(width: button != .zero ? width : (width * 2.2) , height: width)
+                                    .foregroundColor(.white)
+                                    .background(button.backgroundColor)
+                                    .cornerRadius(width)
+                            }
                         }
                     }.padding(10)
                 }
