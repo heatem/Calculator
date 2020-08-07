@@ -49,11 +49,21 @@ enum CalculatorButton: String {
     }
 }
 
+class GlobalEnvironment: ObservableObject {
+    @Published var display = " "
+    @Published var result = " "
+    
+    func receiveInput(button: CalculatorButton) {
+        self.display += button.title
+    }
+    
+    // TODO: add function to calculate
+}
+
 struct ContentView: View {
     let width = UIScreen.main.bounds.width / 5
     
-    var result = ""
-    var calculations = "hi"
+    @EnvironmentObject var env: GlobalEnvironment
     
     let buttons: [[CalculatorButton]] = [
         [.ac, .plusMinus, .percent, .divide],
@@ -70,7 +80,7 @@ struct ContentView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Text(calculations)
+                    Text(env.display)
                         .font(.system(size: 32))
                         .foregroundColor(.gray)
                 }
@@ -79,7 +89,7 @@ struct ContentView: View {
                 
                 HStack {
                     Spacer()
-                    Text("\(result)")
+                    Text(env.result)
                         .font(.system(size: 72))
                         .foregroundColor(.white)
                 }.padding()
@@ -87,7 +97,9 @@ struct ContentView: View {
                 ForEach(buttons, id: \.self) { row in
                     HStack {
                         ForEach(row, id: \.self) { button in
-                            Button(action: {}) {
+                            Button(action: {
+                                self.env.receiveInput(button: button)
+                            }) {
                                 Text(button.title)
                                     .font(.system(size: 32))
                                     .frame(width: button != .zero ? width : (width * 2.2) , height: width)
@@ -98,13 +110,13 @@ struct ContentView: View {
                         }
                     }.padding(10)
                 }
-            }.padding(.bottom, 20)
+            }.padding()
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(GlobalEnvironment())
     }
 }
