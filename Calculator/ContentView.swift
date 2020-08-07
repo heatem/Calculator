@@ -32,7 +32,7 @@ enum CalculatorButton: String {
         case .multiply: return "x"
         case .divide: return "/"
         case .ac: return "AC"
-        case .plusMinus: return "+-"
+        case .plusMinus: return "+/-"
         case .percent: return "%"
         }
     }
@@ -52,6 +52,9 @@ enum CalculatorButton: String {
 struct ContentView: View {
     let width = UIScreen.main.bounds.width / 5
     
+    var result = ""
+    var calculations = "hi"
+    
     let buttons: [[CalculatorButton]] = [
         [.ac, .plusMinus, .percent, .divide],
         [.seven, .eight, .nine, .multiply],
@@ -67,7 +70,16 @@ struct ContentView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Text("70")
+                    Text(calculations)
+                        .font(.system(size: 32))
+                        .foregroundColor(.gray)
+                }
+                .padding(.top)
+                .padding(.trailing)
+                
+                HStack {
+                    Spacer()
+                    Text("\(result)")
                         .font(.system(size: 72))
                         .foregroundColor(.white)
                 }.padding()
